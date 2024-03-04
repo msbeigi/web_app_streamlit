@@ -16,7 +16,7 @@ def sample_app():
 
     openai.api_key = api_key
     models = openai.Engine.list()
-    # st.write(models)
+    st.write(models)
 
     if st.button("Click me to answer your question!"):
         code = submit_question(api_key, question_prompt, language)
