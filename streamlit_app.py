@@ -1,6 +1,6 @@
 import streamlit as st
 import openai
-import os
+# import os
 # import click
 
 def sample_app():
