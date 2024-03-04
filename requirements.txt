@@ -1,2 +1,4 @@
+pylint
+pytest
 streamlit
 openai==0.28
