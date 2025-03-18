@@ -15,8 +15,8 @@ def sample_app():
 
 
     openai.api_key = api_key
-    models = openai.Engine.list()
-    st.write(models)
+    # models = openai.Engine.list()
+    # st.write(models)
 
     if st.button("Click me to answer your question!"):
         code = submit_question(api_key, question_prompt, language)
@@ -25,18 +25,20 @@ def sample_app():
 def submit_question(api_key, question,language):
     print(f"{api_key} \n {question}\n {language}")
     openai.api_key=api_key#os.getenv("API_KEY")
-    prompt=f"## {language} \n\n{question}"
+    prompt=f"## Generate {language}  code for: {question}"
+    try:
+        result=openai.Completion.create(model="gpt-3.5-turbo-16k-0613",
+                                        max_tokens=300,prompt=prompt,temperature=0,
+                                        top_p=1,
+                                        frequency_penalty=0,
+                                        presence_penalty=0,
+                                        )
 
-    result=openai.Completion.create(model="gpt-3.5-turbo-16k-0613",
-                                    max_tokens=300,prompt=prompt,temperature=0,
-                                     top_p=1,
-                                     frequency_penalty=0,
-                                     presence_penalty=0,
-                                     )
 
-
-    return result.choices[0].text.strip("\n")
-
+        return result.choices[0].text.strip("\n")
+    
+    except openai.error.AuthenticationError:
+        return "Invalid API key. Please check and try again."
 
 
 
